@@ -1,4 +1,11 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 import { PartialType } from '@nestjs/mapped-types';
 
 enum ELevel {
@@ -8,6 +15,7 @@ enum ELevel {
 
 export class DeveloperDTO {
   @IsString()
+  @Length(3)
   name: string;
 
   @IsEmail()
