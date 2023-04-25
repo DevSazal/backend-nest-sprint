@@ -1,10 +1,18 @@
-import { Body, Controller, Param, Get, Post, Put, Delete } from '@nestjs/common';
+import { Body, Controller, Inject, Param, Get, Post, Put, Delete } from '@nestjs/common';
 import { DeveloperDTO, PartialDeveloperDTO } from './dto';
 import { DeveloperService } from './developer.service';
+import { InMemoryDeveloperService } from './in-memory-developer.service';
 
 @Controller('developers')
 export class DeveloperController {
-  constructor(private readonly developerService: DeveloperService) {}
+  constructor(
+    @Inject(
+      process.env.NODE_ENV === 'development'
+        ? InMemoryDeveloperService
+        : DeveloperService,
+    )
+    private readonly developerService: DeveloperService,
+  ) {}
 
   @Post()
   postDeveloper(@Body() dto: DeveloperDTO): object {

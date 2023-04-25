@@ -31,17 +31,21 @@ export class DeveloperService {
   }
 
   async read(id: string): Promise<DeveloperDocument> {
-    const cacheKey = `developer:${id}`;
-    const cached = await this.cacheManager.get(cacheKey);
+    try {
+      const cacheKey = `developer:${id}`;
+      const cached = await this.cacheManager.get(cacheKey);
 
-    if (cached) {
-      return JSON.parse(cached as unknown as string);
+      if (cached) {
+        return JSON.parse(cached as unknown as string);
+      }
+
+      const developer = await this.developerModel.findById(id);
+      if (!developer) throw new NotFoundException(`developer not found!`);
+      await this.cacheManager.set(cacheKey, JSON.stringify(developer), 0);
+      return developer;
+    } catch (error) {
+      throw new NotFoundException(`developer not found!`);
     }
-
-    const developer = await this.developerModel.findById(id);
-    if (!developer) throw new NotFoundException(`developer not found!`);
-    await this.cacheManager.set(cacheKey, JSON.stringify(developer), 0);
-    return developer;
   }
 
   async filterByLevel(dto: PartialDeveloperDTO): Promise<DeveloperDocument[]> {
@@ -72,10 +76,14 @@ export class DeveloperService {
   }
 
   async delete(id: string): Promise<HttpException> {
-    const developer = await this.developerModel.findByIdAndDelete(id);
-    if (!developer) throw new NotFoundException(`failed to delete developer!`);
-    const cacheKey = `developer:${id}`;
-    await this.cacheManager.del(cacheKey);
-    throw new HttpException('The data has been deleted successfully', HttpStatus.OK);
+    try {
+      const developer = await this.developerModel.findByIdAndDelete(id);
+      if (!developer) throw new NotFoundException(`failed to delete developer!`);
+      const cacheKey = `developer:${id}`;
+      await this.cacheManager.del(cacheKey);
+      throw new HttpException('The data has been deleted successfully', HttpStatus.OK);
+    } catch (error) {
+      throw new NotFoundException(`failed to delete developer!`);
+    }
   }
 }
