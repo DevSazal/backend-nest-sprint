@@ -11,11 +11,9 @@
 * Redis, MongoDB
 * Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
 
-#### 🎁 If you are a big fan of docker, just don't wait and pull the [docker image](https://hub.docker.com/r/sazal/backend-nest-sprint) by following the commands:
+#### 🎁 If you are a big fan of docker, just don't wait, clone the repository and use the following [docker](https://docs.docker.com/engine/reference/commandline/compose_up/) commands:
 
 ```bash
-docker pull sazal/backend-nest-sprint:1.0.0.RELEASE
-
 # to run with docker-compose.yml
 docker-compose up
 ```

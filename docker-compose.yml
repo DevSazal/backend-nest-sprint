@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+  app:
+    container_name: nest-sprint
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+      - redis
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      MONGODB_URI: mongodb://mongodb:27017/nest
+      REDIS_URL: redis://redis:6379/0
+      CACHE_TTL: 180
+    networks:
+      - nest-app-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: nest-sprint-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - nest-app-network
+
+  redis:
+    image: redis:latest
+    container_name: nest-sprint-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - nest-app-network
+
+volumes:
+  mongodb_data:
+  redis_data:
+
+networks:
+  nest-app-network:
