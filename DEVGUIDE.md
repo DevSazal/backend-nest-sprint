@@ -118,10 +118,8 @@ This endpoint is used to delete a developer by ID.
 #### Response Body
 ```json
 {
-  "_id": "string",
-  "name": "string",
-  "email": "string",
-  "level": "string"
+  "statusCode": 200,
+  "message": "The data has been deleted successfully"
 }
 ```
 
