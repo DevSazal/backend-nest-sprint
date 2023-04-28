@@ -11,9 +11,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DeveloperDTO, PartialDeveloperDTO } from './dto';
 import { Developer, DeveloperDocument } from './schemas/developer.schema';
+import { IDeveloperService } from '../core/interfaces/IDeveloperService';
 
 @Injectable()
-export class DeveloperService {
+export class DeveloperService implements IDeveloperService {
   constructor(
     @InjectModel(Developer.name)
     private developerModel: Model<DeveloperDocument>,
@@ -21,9 +22,13 @@ export class DeveloperService {
   ) {}
 
   async create(dto: DeveloperDTO): Promise<DeveloperDocument> {
-    const developer = await this.developerModel.create(dto);
-    if (!developer) throw new NotFoundException(`failed to create developer!`);
-    return developer;
+    try {
+      const developer = await this.developerModel.create(dto);
+      if (!developer) throw new NotFoundException(`failed to create developer!`);
+      return developer;
+    } catch (error) {
+      throw new NotFoundException(`failed to create developer for duplicate email!`);
+    }
   }
 
   async readBatch(): Promise<DeveloperDocument[]> {

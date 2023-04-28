@@ -26,6 +26,8 @@ The application includes the following files and folders.
 - `src` - code for the application written in TypeScript, NestJS, Express.js.
 - `cli` - node cli script which can be performed from terminal.
 - `test` - to test all the features.
+- `docker-compose.dev.yml` - to run in develoment mode.
+- `docker-compose.yml` - to run in production mode.
 - `.env.example` - a sample of .env which can be helpful for configuration.
 
 ```bash
@@ -45,6 +47,14 @@ src/
 │   ├── developer.module.ts
 │   ├── developer.service.ts
 │   └── in-memory-developer.service.ts
+│
+├── core/
+│   ├── enums/
+│   │   └── EDeveloper.ts
+│   │
+│   └── interfaces/
+│       ├── IDeveloperService.ts
+│       └── IService.ts
 │
 ├── app.module.ts
 └── main.ts

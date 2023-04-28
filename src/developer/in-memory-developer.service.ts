@@ -10,14 +10,15 @@ import {
 
 import { DeveloperDTO, PartialDeveloperDTO } from './dto';
 import { randomUUID } from 'crypto';
+import { IDeveloperService, IDeveloper } from 'src/core/interfaces/IDeveloperService';
 
 @Injectable()
-export class InMemoryDeveloperService {
+export class InMemoryDeveloperService implements IDeveloperService {
   private key = 'developers';
   constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
 
   async create(dto: DeveloperDTO): Promise<object> {
-    const data = {
+    const data: IDeveloper = {
       _id: this.uuid(),
       name: dto.name,
       email: dto.email,

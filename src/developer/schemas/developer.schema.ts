@@ -1,12 +1,8 @@
+import { EDeveloperLevel } from './../../core/enums/EDeveloper';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 export type DeveloperDocument = HydratedDocument<Developer>;
-
-enum ELevel {
-  junior = 'junior',
-  senior = 'senior',
-}
 
 @Schema()
 export class Developer {
@@ -16,8 +12,8 @@ export class Developer {
   @Prop({ unique: true })
   email: string;
 
-  @Prop({ type: String, enum: ELevel, default: ELevel.junior })
-  level: ELevel;
+  @Prop({ type: String, enum: EDeveloperLevel, default: EDeveloperLevel.JUNIOR })
+  level: EDeveloperLevel;
 }
 
 export const DeveloperSchema = SchemaFactory.createForClass(Developer);

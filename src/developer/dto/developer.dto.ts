@@ -7,11 +7,7 @@ import {
   Length,
 } from 'class-validator';
 import { PartialType } from '@nestjs/mapped-types';
-
-enum ELevel {
-  junior = 'junior',
-  senior = 'senior',
-}
+import { EDeveloperLevel } from './../../core/enums/EDeveloper';
 
 export class DeveloperDTO {
   @IsString()
@@ -23,9 +19,9 @@ export class DeveloperDTO {
   email: string;
 
   @IsString()
-  @IsEnum(ELevel)
+  @IsEnum(EDeveloperLevel)
   @IsOptional()
-  level: ELevel;
+  level: EDeveloperLevel;
 }
 
 export class PartialDeveloperDTO extends PartialType(DeveloperDTO) {}
